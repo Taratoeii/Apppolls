@@ -53,14 +53,12 @@ def vote(request, question_id):
 
 def Delete(request):
     question = Question.objects.all()
-    selected_question = Question.objects.get(id=request.POST['question'])
-    selected_question.delete()
-    # try:
-    #     selected_question = Question.objects.get(id=request.POST['question'])
-    # except (KeyError, Question.DoesNotExist):
-    #     return render(request, 'index.html', {
-    #         'error_message': "You didn't select a question.",
-    #     })
-    # else:
-    #     selected_question.delete()
+    try:
+        selected_question = Question.objects.get(id=request.POST['question'])
+    except (KeyError, Question.DoesNotExist):
+        return render(request, 'index.html', {
+            'error_message': "You didn't select a question.",
+        })
+    else:
+        selected_question.delete()
     return HttpResponseRedirect(reverse('polls:index'))

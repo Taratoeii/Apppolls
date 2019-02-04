@@ -7,12 +7,12 @@ from .models import Choice, Question
 from django.http import HttpResponse
 from django.template import loader
 
-def index(request):
-    template = loader.get_template('text.html')
-    context = {
-        'name': "what",
-    }
-    return HttpResponse(template.render(context, request))
+# def index(request):
+#     template = loader.get_template('text.html')
+#     context = {
+#         'name': "what",
+#     }
+#     return HttpResponse(template.render(context, request))
 
 class IndexView(generic.ListView):
     template_name = 'index.html'

@@ -6,13 +6,14 @@ from django.shortcuts import HttpResponse
 from .models import Choice, Question
 from django.http import HttpResponse
 from django.template import loader
+from django.utils import timezone
 
-# def index(request):
-#     template = loader.get_template('text.html')
-#     context = {
-#         'name': "what",
-#     }
-#     return HttpResponse(template.render(context, request))
+def index(request):
+    template = loader.get_template('text.html')
+    context = {
+        'name': "what",
+    }
+    return HttpResponse(template.render(context, request))
 
 class IndexView(generic.ListView):
     template_name = 'index.html'
@@ -27,15 +28,9 @@ class DetailView(generic.DetailView):
     model = Question
     template_name = 'detail.html'
 
-def text(request):
-    
-    return render(request, 'text.html')
-
-
 class ResultsView(generic.DetailView):
     model = Question
     template_name = 'results.html'
-
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
@@ -61,4 +56,8 @@ def Delete(request):
         })
     else:
         selected_question.delete()
+    return HttpResponseRedirect(reverse('polls:index'))
+
+def Add(request):
+    Question.objects.create(question_text=request.POST['Addtext'], pub_date=timezone.now())
     return HttpResponseRedirect(reverse('polls:index'))
